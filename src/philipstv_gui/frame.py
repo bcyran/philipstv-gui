@@ -1,60 +1,48 @@
 import tkinter as tk
-from tkinter import simpledialog, ttk
-from typing import Optional
+from tkinter import messagebox, simpledialog, ttk
+from typing import Any, Optional, Tuple
 
 from philipstv import PhilipsTVRemote
 
+from philipstv_gui.connector import Connector
+
 from .remote import Remote
-from .storage import AppData, HostData
+from .storage import AppData
 
 
 class AppFrame(ttk.Frame):
     def __init__(self, container: tk.Tk, store: AppData) -> None:
         super().__init__(container)
+
         self._store: AppData = store
-        self._remote = PhilipsTVRemote.new("")
+        self._remote: Optional[PhilipsTVRemote] = None
 
         self._init_widgets()
-        self._init_remote()
-        self.grid()
+
+        if last_host := self._store.last_host:
+            self._init_host(last_host.host, (last_host.id, last_host.key))
 
     def _init_widgets(self) -> None:
-        self._last_host_ip = tk.StringVar(
-            self, self._store.last_host.host if self._store.last_host else ""
-        )
-        self._ip_input = ttk.Entry(self, textvariable=self._last_host_ip)
-        self._ip_input.grid(row=0, column=0, sticky=tk.EW)
+        self._connector_panel = Connector(self)
+        self._connector_panel.grid(row=0, column=0, sticky=tk.EW)
+        self._connector_panel.bind("<<Pair>>", self._pair)
 
-        self._pair_button = ttk.Button(self, text="pair", command=self._pair_remote)
-        self._pair_button.grid(row=1, column=0, sticky=tk.EW)
+        self._remote_panel = Remote(self, self._remote)
+        self._remote_panel.grid(row=1, column=0, sticky=tk.EW)
 
-        self.remote_panel = Remote(self, self._remote)
-        self.remote_panel.grid(row=2, column=0)
+        self.grid()
 
-    def _init_remote(self) -> None:
-        entered_ip = self._get_entered_ip()
-        last_host = self._store.last_host
-        if entered_ip and last_host and entered_ip == last_host.host:
-            self._set_remote(PhilipsTVRemote.new(entered_ip, (last_host.id, last_host.key)))
-            self._pair_button["state"] = tk.DISABLED
-        elif entered_ip:
-            self._set_remote(PhilipsTVRemote.new(entered_ip))
-            self._pair_button["state"] = tk.ACTIVE
+    def _init_host(self, host: str, auth: Optional[Tuple[str, str]] = None) -> PhilipsTVRemote:
+        self._remote = PhilipsTVRemote.new(host, auth)
+        self._remote_panel.remote = self._remote
+        self._connector_panel.host_ip = host
+        return self._remote
 
-    def _pair_remote(self) -> None:
-        self._init_remote()
-        if not (entered_ip := self._get_entered_ip()):
+    def _pair(self, _: Any) -> None:
+        if not self._connector_panel.host_ip:
+            messagebox.showerror("Pairing error", "First enter the IP address!")
             return
-        credentials = self._remote.pair(self._ask_for_pin)
-        self._store.last_host = HostData(host=entered_ip, id=credentials[0], key=credentials[1])
-        self._store.save()
-
-    def _get_entered_ip(self) -> Optional[str]:
-        return self._last_host_ip.get().strip() or None
-
-    def _set_remote(self, remote: PhilipsTVRemote) -> None:
-        self._remote = remote
-        self.remote_panel.remote = remote
+        self._init_host(self._connector_panel.host_ip).pair(self._ask_for_pin)
 
     @staticmethod
     def _ask_for_pin() -> str:

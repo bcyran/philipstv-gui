@@ -1,8 +1,8 @@
 import tkinter as tk
 from dataclasses import dataclass
 from functools import partial
-from tkinter import ttk
-from typing import Callable
+from tkinter import messagebox, ttk
+from typing import Callable, Optional
 
 from philipstv import PhilipsTVRemote
 from philipstv.model import InputKeyValue
@@ -73,20 +73,25 @@ BUTTONS = [
 
 
 class Remote(ttk.Frame):
-    def __init__(self, container: ttk.Frame, remote: PhilipsTVRemote) -> None:
+    def __init__(self, container: ttk.Frame, remote: Optional[PhilipsTVRemote] = None) -> None:
         super().__init__(container)
+
         self.remote = remote
 
+        self._init_widgets()
+
+    def _init_widgets(self) -> None:
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
         self.columnconfigure(2, weight=1)
 
-        self._init_widgets()
-        self.grid()
-
-    def _init_widgets(self) -> None:
         for button in BUTTONS:
             button.install(self, self._key_press)
 
+        self.grid()
+
     def _key_press(self, key: InputKeyValue) -> None:
+        if not self.remote:
+            messagebox.showerror("TV error", "First pair with the TV!")
+            return
         self.remote.input_key(key)
