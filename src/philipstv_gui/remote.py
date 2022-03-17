@@ -73,7 +73,7 @@ BUTTONS = [
 
 
 class Remote(ttk.Frame):
-    def __init__(self, container: ttk.Frame, remote: Optional[PhilipsTVRemote] = None) -> None:
+    def __init__(self, container: ttk.Widget, remote: Optional[PhilipsTVRemote] = None) -> None:
         super().__init__(container)
 
         self.remote = remote
