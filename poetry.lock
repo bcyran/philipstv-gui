@@ -395,6 +395,14 @@ tox = {version = ">=3.7.0", markers = "python_version >= \"3\""}
 test = ["coverage", "pytest", "pycodestyle", "pylint"]
 
 [[package]]
+name = "types-appdirs"
+version = "1.4.2"
+description = "Typing stubs for appdirs"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "typing-extensions"
 version = "4.1.1"
 description = "Backported and Experimental Type Hints for Python 3.6+"
@@ -436,7 +444,7 @@ testing = ["coverage (>=4)", "coverage-enable-subprocess (>=1)", "flaky (>=3)", 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "2ac35df20a57f64033929b092adacc7b568ca6c686e8b451d426c16d3d66b4bb"
+content-hash = "27610dbeb2145ac18a34c7464b963033f8b38f324b5ee047adb9ad3794477d16"
 
 [metadata.files]
 appdirs = [
@@ -649,6 +657,10 @@ tox = [
 tox-poetry = [
     {file = "tox-poetry-0.4.1.tar.gz", hash = "sha256:2395808e1ce487b5894c10f2202e14702bfa6d6909c0d1e525170d14809ac7ef"},
     {file = "tox_poetry-0.4.1-py2.py3-none-any.whl", hash = "sha256:11d9cd4e51d4cd9484b3ba63f2650ab4cfb4096e5f0682ecf561ddfc3c8e8c92"},
+]
+types-appdirs = [
+    {file = "types-appdirs-1.4.2.tar.gz", hash = "sha256:2edb1dca35db16eb4c1244ba8502eb046e637dc0e2857117fe148af927ac028f"},
+    {file = "types_appdirs-1.4.2-py3-none-any.whl", hash = "sha256:051a48c3db104d6836954bc17d9608c59a71caf2f7d9b65738225c5f6ed149ef"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.1.1-py3-none-any.whl", hash = "sha256:21c85e0fe4b9a155d0799430b0ad741cdce7e359660ccbd8b530613e8df88ce2"},
