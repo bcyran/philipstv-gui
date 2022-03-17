@@ -4,6 +4,7 @@ from typing import Any, Optional, Tuple
 
 from philipstv import PhilipsTVRemote
 
+from philipstv_gui.applications import Applications
 from philipstv_gui.channels import Channels
 from philipstv_gui.connector import Connector
 
@@ -37,13 +38,17 @@ class AppFrame(ttk.Frame):
         self._channels_panel = Channels(notebook, self._remote)
         notebook.add(self._channels_panel, text="Channels")
 
+        self._apps_panel = Applications(notebook, self._remote)
+        notebook.add(self._apps_panel, text="Apps")
+
         self.grid()
 
     def _init_host(self, host: str, auth: Optional[Tuple[str, str]] = None) -> PhilipsTVRemote:
         self._remote = PhilipsTVRemote.new(host, auth)
+        self._connector_panel.host_ip = host
         self._remote_panel.remote = self._remote
         self._channels_panel.remote = self._remote
-        self._connector_panel.host_ip = host
+        self._apps_panel.remote = self._remote
         return self._remote
 
     def _pair(self, _: Any) -> None:
