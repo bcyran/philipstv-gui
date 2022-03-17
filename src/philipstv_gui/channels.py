@@ -37,8 +37,9 @@ class Channels(ttk.Frame):
     def _on_selected(self, _: Any) -> None:
         if not self._remote:
             return
-        selected_index = self._listbox.curselection()[0]  # type: ignore[no-untyped-call]
-        selected_channel = self._channels_list[selected_index]
+        if not (selection := self._listbox.curselection()):  # type: ignore[no-untyped-call]
+            return
+        selected_channel = self._channels_list[selection[0]]
         self._remote.set_channel(selected_channel)
 
     @property

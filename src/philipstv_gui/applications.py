@@ -35,8 +35,9 @@ class Applications(ttk.Frame):
     def _on_selected(self, _: Any) -> None:
         if not self._remote:
             return
-        selected_index = self._listbox.curselection()[0]  # type: ignore[no-untyped-call]
-        selected_application = self._apps_list[selected_index]
+        if not (selection := self._listbox.curselection()):  # type: ignore[no-untyped-call]
+            return
+        selected_application = self._apps_list[selection[0]]
         self._remote.launch_application(selected_application)
 
     @property
