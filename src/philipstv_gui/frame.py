@@ -27,7 +27,8 @@ class AppFrame(ttk.Frame):
     def _init_widgets(self) -> None:
         self._connector_panel = Connector(self)
         self._connector_panel.grid(row=0, column=0, sticky=tk.EW)
-        self._connector_panel.bind("<<Pair>>", self._pair)
+        self._connector_panel.bind("<<Pair>>", self._on_pair)
+        self._connector_panel.bind("<<Input>>", self._on_input)
 
         notebook = ttk.Notebook(self)
         notebook.grid(row=1, column=0, sticky=tk.EW)
@@ -46,16 +47,20 @@ class AppFrame(ttk.Frame):
     def _init_host(self, host: str, auth: Optional[Tuple[str, str]] = None) -> PhilipsTVRemote:
         self._remote = PhilipsTVRemote.new(host, auth)
         self._connector_panel.host_ip = host
+        self._connector_panel.enabled = False
         self._remote_panel.remote = self._remote
         self._channels_panel.remote = self._remote
         self._apps_panel.remote = self._remote
         return self._remote
 
-    def _pair(self, _: Any) -> None:
+    def _on_pair(self, _: Any) -> None:
         if not self._connector_panel.host_ip:
             messagebox.showerror("Pairing error", "First enter the IP address!")
             return
         self._init_host(self._connector_panel.host_ip).pair(self._ask_for_pin)
+
+    def _on_input(self, _: Any) -> None:
+        self._connector_panel.enabled = True
 
     @staticmethod
     def _ask_for_pin() -> str:

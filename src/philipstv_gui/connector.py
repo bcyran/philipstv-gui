@@ -34,3 +34,11 @@ class Connector(ttk.Frame):
     @host_ip.setter
     def host_ip(self, value: str) -> None:
         self._host_ip.set(value)
+
+    @property
+    def enabled(self) -> bool:
+        return bool(self._pair_button["state"] == "normal")
+
+    @enabled.setter
+    def enabled(self, value: bool) -> None:
+        self._pair_button["state"] = "normal" if value else "disabled"
