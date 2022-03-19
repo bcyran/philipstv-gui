@@ -11,6 +11,7 @@ philipstv-gui = "philipstv_gui.__main__:main"
 python = "^3.10"
 philipstv = "^0.2.0"
 appdirs = "^1.4.4"
+ttkbootstrap = "^1.7.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.0.0"
@@ -29,6 +30,10 @@ build-backend = "poetry.core.masonry.api"
 [tool.mypy]
 strict = true
 show_error_codes = true
+
+[[tool.mypy.overrides]]
+module = "ttkbootstrap.*"
+ignore_missing_imports = true
 
 [tool.black]
 line-length = 100

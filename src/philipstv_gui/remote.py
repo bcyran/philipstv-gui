@@ -1,11 +1,12 @@
 import tkinter as tk
 from dataclasses import dataclass
 from functools import partial
-from tkinter import messagebox, ttk
 from typing import Callable, Optional
 
+import ttkbootstrap as ttk
 from philipstv import PhilipsTVRemote
 from philipstv.model import InputKeyValue
+from ttkbootstrap.dialogs.dialogs import Messagebox
 
 
 @dataclass(frozen=True)
@@ -20,13 +21,17 @@ class RemoteButton:
     def install(
         self, container: ttk.Frame, callback: Callable[[InputKeyValue], None]
     ) -> ttk.Button:
-        button = ttk.Button(container, text=self.text, command=partial(callback, self.key))
+        button = ttk.Button(
+            container, text=self.text, command=partial(callback, self.key), bootstyle="dark-outline"
+        )
         button.grid(
             row=self.row,
             column=self.column,
             rowspan=self.rowspan,
             columnspan=self.colspan,
-            sticky=tk.EW,
+            sticky=tk.NSEW,
+            padx=1,
+            pady=1,
         )
         return button
 
@@ -72,8 +77,8 @@ BUTTONS = [
 ]
 
 
-class Remote(ttk.Frame):
-    def __init__(self, container: ttk.Widget, remote: Optional[PhilipsTVRemote] = None) -> None:
+class Remote(ttk.Frame):  # type: ignore
+    def __init__(self, container: ttk.Frame, remote: Optional[PhilipsTVRemote] = None) -> None:
         super().__init__(container)
 
         self.remote = remote
@@ -85,6 +90,9 @@ class Remote(ttk.Frame):
         self.columnconfigure(1, weight=1)
         self.columnconfigure(2, weight=1)
 
+        for row in set(map(lambda button: button.row, BUTTONS)):
+            self.rowconfigure(row, weight=1)
+
         for button in BUTTONS:
             button.install(self, self._key_press)
 
@@ -92,6 +100,6 @@ class Remote(ttk.Frame):
 
     def _key_press(self, key: InputKeyValue) -> None:
         if not self.remote:
-            messagebox.showerror("TV error", "First pair with the TV!")
+            Messagebox.show_error("First pair with the TV!", "TV error", parent=self)
             return
         self.remote.input_key(key)

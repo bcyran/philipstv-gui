@@ -1,12 +1,12 @@
 import tkinter as tk
-from tkinter import ttk
 from typing import Any, List, Optional
 
+import ttkbootstrap as ttk
 from philipstv.remote import PhilipsTVRemote
 
 
-class Applications(ttk.Frame):
-    def __init__(self, container: ttk.Widget, remote: Optional[PhilipsTVRemote]) -> None:
+class Applications(ttk.Frame):  # type: ignore[misc]
+    def __init__(self, container: ttk.Frame, remote: Optional[PhilipsTVRemote]) -> None:
         super().__init__(container)
 
         self._remote = remote

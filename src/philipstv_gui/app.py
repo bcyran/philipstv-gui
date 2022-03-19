@@ -1,22 +1,27 @@
 import tkinter as tk
-from pathlib import Path
+from tkinter import font
+
+from ttkbootstrap.window import Window
 
 from .frame import AppFrame
 from .storage import AppData
 
-THIS_DIR = Path(__file__).parent
 
-
-class App(tk.Tk):
+class App(Window):  # type: ignore
     def __init__(self) -> None:
-        super().__init__()
+        super().__init__(title="PhilipsTV GUI")
 
-        self.title("PhilipsTV GUI")
-        self.resizable(False, False)
+        font.nametofont("TkDefaultFont").config(size=11)
+        font.nametofont("TkTextFont").config(size=11)
 
         self._app_data = AppData.load()
 
         self._init_widgets()
 
     def _init_widgets(self) -> None:
-        AppFrame(self, self._app_data)
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
+
+        AppFrame(self, self._app_data).grid(row=0, column=0, sticky=tk.NSEW)
+
+        self.grid()

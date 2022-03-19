@@ -1,9 +1,10 @@
 import tkinter as tk
-from tkinter import ttk
 from typing import Any
 
+import ttkbootstrap as ttk
 
-class Connector(ttk.Frame):
+
+class Connector(ttk.Frame):  # type: ignore[misc]
     def __init__(self, container: ttk.Frame) -> None:
         super().__init__(container)
 
@@ -13,10 +14,17 @@ class Connector(ttk.Frame):
         self._host_ip = tk.StringVar(self)
         self._host_ip.trace_add("write", self._on_input)
 
-        self._ip_input = ttk.Entry(self, textvariable=self._host_ip)
-        self._ip_input.pack(fill="x")
+        self._ip_input = ttk.Entry(
+            self,
+            textvariable=self._host_ip,
+        )
+        self._ip_input.pack(fill="x", pady=(0, 5))
 
-        self._pair_button = ttk.Button(self, text="pair", command=self._on_pair)
+        self._pair_button = ttk.Button(
+            self,
+            text="pair",
+            command=self._on_pair,
+        )
         self._pair_button.pack(fill="x")
 
         self.pack()

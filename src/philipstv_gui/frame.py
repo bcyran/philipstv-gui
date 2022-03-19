@@ -1,8 +1,9 @@
 import tkinter as tk
-from tkinter import messagebox, simpledialog, ttk
 from typing import Any, Optional, Tuple
 
+import ttkbootstrap as ttk
 from philipstv import PhilipsTVRemote
+from ttkbootstrap.dialogs.dialogs import Messagebox, Querybox
 
 from philipstv_gui.applications import Applications
 from philipstv_gui.channels import Channels
@@ -12,7 +13,7 @@ from .remote import Remote
 from .storage import AppData
 
 
-class AppFrame(ttk.Frame):
+class AppFrame(ttk.Frame):  # type: ignore[misc]
     def __init__(self, container: tk.Tk, store: AppData) -> None:
         super().__init__(container)
 
@@ -25,13 +26,17 @@ class AppFrame(ttk.Frame):
             self._init_host(last_host.host, (last_host.id, last_host.key))
 
     def _init_widgets(self) -> None:
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=0)
+        self.rowconfigure(1, weight=1)
+
         self._connector_panel = Connector(self)
-        self._connector_panel.grid(row=0, column=0, sticky=tk.EW)
+        self._connector_panel.grid(row=0, column=0, sticky=tk.EW, padx=5, pady=5)
         self._connector_panel.bind("<<Pair>>", self._on_pair)
         self._connector_panel.bind("<<Input>>", self._on_input)
 
         notebook = ttk.Notebook(self)
-        notebook.grid(row=1, column=0, sticky=tk.EW)
+        notebook.grid(row=1, column=0, sticky=tk.NSEW, padx=5, pady=5)
 
         self._remote_panel = Remote(notebook, self._remote)
         notebook.add(self._remote_panel, text="Remote")
@@ -55,13 +60,14 @@ class AppFrame(ttk.Frame):
 
     def _on_pair(self, _: Any) -> None:
         if not self._connector_panel.host_ip:
-            messagebox.showerror("Pairing error", "First enter the IP address!")
+            Messagebox.show_error("Enter the IP address!", "Pairing error", parent=self)
             return
         self._init_host(self._connector_panel.host_ip).pair(self._ask_for_pin)
 
     def _on_input(self, _: Any) -> None:
         self._connector_panel.enabled = True
 
-    @staticmethod
-    def _ask_for_pin() -> str:
-        return simpledialog.askstring(title="PIN", prompt="Enter PIN number displayed on the TV")
+    def _ask_for_pin(self) -> str:
+        return Querybox.get_string(  # type: ignore[no-any-return]
+            "Enther PIN number displayed on the TV", "PIN", parent=self
+        )
