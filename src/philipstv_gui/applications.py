@@ -13,7 +13,7 @@ class Applications(ttk.Frame):  # type: ignore[misc]
         self._apps_list: List[str] = []
 
         self._init_widgets()
-        self._populate_apps()
+        self.refresh()
 
     def _init_widgets(self) -> None:
         self.columnconfigure(0, weight=1)
@@ -26,8 +26,8 @@ class Applications(ttk.Frame):  # type: ignore[misc]
 
         self.grid()
 
-    def _populate_apps(self) -> None:
-        if not self._remote:
+    def refresh(self) -> None:
+        if not self._remote or not self._remote.auth:
             return
         self._apps_list = self._remote.get_applications()
         self._listbox_values.set(self._apps_list)  # type: ignore[arg-type]
@@ -47,4 +47,4 @@ class Applications(ttk.Frame):  # type: ignore[misc]
     @remote.setter
     def remote(self, value: Optional[PhilipsTVRemote]) -> None:
         self._remote = value
-        self._populate_apps()
+        self.refresh()

@@ -58,11 +58,16 @@ class AppFrame(ttk.Frame):  # type: ignore[misc]
         self._apps_panel.remote = self._remote
         return self._remote
 
+    def _refresh_panels(self) -> None:
+        self._channels_panel.refresh()
+        self._apps_panel.refresh()
+
     def _on_pair(self, _: Any) -> None:
         if not self._connector_panel.host_ip:
             Messagebox.show_error("Enter the IP address!", "Pairing error", parent=self)
             return
         self._init_host(self._connector_panel.host_ip).pair(self._ask_for_pin)
+        self._refresh_panels()
 
     def _on_input(self, _: Any) -> None:
         self._connector_panel.enabled = True

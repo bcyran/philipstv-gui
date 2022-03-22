@@ -13,7 +13,7 @@ class Channels(ttk.Frame):  # type: ignore[misc]
         self._channels_list: List[str] = []
 
         self._init_widgets()
-        self._populate_channels()
+        self.refresh()
 
     def _init_widgets(self) -> None:
         self.columnconfigure(0, weight=1)
@@ -26,8 +26,8 @@ class Channels(ttk.Frame):  # type: ignore[misc]
 
         self.grid()
 
-    def _populate_channels(self) -> None:
-        if not self._remote:
+    def refresh(self) -> None:
+        if not self._remote or not self._remote.auth:
             return
         channels_map = self._remote.get_all_channels()
         channels_labels = [f"{num}. {name}" for num, name in channels_map.items()]
@@ -49,4 +49,4 @@ class Channels(ttk.Frame):  # type: ignore[misc]
     @remote.setter
     def remote(self, value: Optional[PhilipsTVRemote]) -> None:
         self._remote = value
-        self._populate_channels()
+        self.refresh()
