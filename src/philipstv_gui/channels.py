@@ -9,7 +9,7 @@ class Channels(ttk.Frame):  # type: ignore[misc]
     def __init__(self, container: ttk.Frame, remote: Optional[PhilipsTVRemote]) -> None:
         super().__init__(container)
 
-        self._remote = remote
+        self.remote = remote
         self._channels_list: List[str] = []
 
         self._init_widgets()
@@ -27,26 +27,17 @@ class Channels(ttk.Frame):  # type: ignore[misc]
         self.grid()
 
     def refresh(self) -> None:
-        if not self._remote or not self._remote.auth:
+        if not self.remote or not self.remote.auth:
             return
-        channels_map = self._remote.get_all_channels()
+        channels_map = self.remote.get_all_channels()
         channels_labels = [f"{num}. {name}" for num, name in channels_map.items()]
         self._channels_list = list(channels_map.values())
         self._listbox_values.set(channels_labels)  # type: ignore[arg-type]
 
     def _on_selected(self, _: Any) -> None:
-        if not self._remote:
+        if not self.remote:
             return
         if not (selection := self._listbox.curselection()):  # type: ignore[no-untyped-call]
             return
         selected_channel = self._channels_list[selection[0]]
-        self._remote.set_channel(selected_channel)
-
-    @property
-    def remote(self) -> Optional[PhilipsTVRemote]:
-        return self._remote
-
-    @remote.setter
-    def remote(self, value: Optional[PhilipsTVRemote]) -> None:
-        self._remote = value
-        self.refresh()
+        self.remote.set_channel(selected_channel)

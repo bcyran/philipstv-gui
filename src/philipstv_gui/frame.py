@@ -3,6 +3,7 @@ from typing import Any, Optional, Tuple
 
 import ttkbootstrap as ttk
 from philipstv import PhilipsTVRemote
+from philipstv.exceptions import PhilipsTVPairingError
 from ttkbootstrap.dialogs.dialogs import Messagebox, Querybox
 
 from philipstv_gui.applications import Applications
@@ -51,14 +52,16 @@ class AppFrame(ttk.Frame):  # type: ignore[misc]
 
     def _init_host(self, host: str, auth: Optional[Tuple[str, str]] = None) -> PhilipsTVRemote:
         self._remote = PhilipsTVRemote.new(host, auth)
-        self._connector_panel.host_ip = host
-        self._connector_panel.enabled = False
         self._remote_panel.remote = self._remote
         self._channels_panel.remote = self._remote
         self._apps_panel.remote = self._remote
+        self.refresh()
         return self._remote
 
-    def _refresh_panels(self) -> None:
+    def refresh(self) -> None:
+        if self._remote:
+            self._connector_panel.host_ip = self._remote.host
+            self._connector_panel.enabled = not bool(self._remote.auth)
         self._channels_panel.refresh()
         self._apps_panel.refresh()
 
@@ -66,11 +69,20 @@ class AppFrame(ttk.Frame):  # type: ignore[misc]
         if not self._connector_panel.host_ip:
             Messagebox.show_error("Enter the IP address!", "Pairing error", parent=self)
             return
-        self._init_host(self._connector_panel.host_ip).pair(self._ask_for_pin)
-        self._refresh_panels()
+
+        remote = self._init_host(self._connector_panel.host_ip)
+
+        try:
+            remote.pair(self._ask_for_pin)
+        except PhilipsTVPairingError as exc:
+            Messagebox.show_error(str(exc), "Pairing error", parent=self)
+            return
+        finally:
+            self.refresh()
 
     def _on_input(self, _: Any) -> None:
-        self._connector_panel.enabled = True
+        input_same_as_current = self._remote and self._remote.host == self._connector_panel.host_ip
+        self._connector_panel.enabled = not input_same_as_current
 
     def _ask_for_pin(self) -> str:
         return Querybox.get_string(  # type: ignore[no-any-return]
