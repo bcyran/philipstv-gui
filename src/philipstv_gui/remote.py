@@ -99,7 +99,7 @@ class Remote(ttk.Frame):  # type: ignore
         self.grid()
 
     def _key_press(self, key: InputKeyValue) -> None:
-        if not self.remote:
+        if not self.remote or not self.remote.auth:
             Messagebox.show_error("First pair with the TV!", "TV error", parent=self)
             return
         self.remote.input_key(key)
