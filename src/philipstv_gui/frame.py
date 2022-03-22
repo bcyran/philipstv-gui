@@ -1,5 +1,5 @@
 import tkinter as tk
-from typing import Any, Optional, Tuple
+from typing import Any, Optional
 
 import ttkbootstrap as ttk
 from philipstv import PhilipsTVRemote
@@ -11,7 +11,7 @@ from philipstv_gui.channels import Channels
 from philipstv_gui.connector import Connector
 
 from .remote import Remote
-from .storage import AppData
+from .storage import AppData, HostData
 
 
 class AppFrame(ttk.Frame):  # type: ignore[misc]
@@ -24,7 +24,8 @@ class AppFrame(ttk.Frame):  # type: ignore[misc]
         self._init_widgets()
 
         if last_host := self._store.last_host:
-            self._init_host(last_host.host, (last_host.id, last_host.key))
+            self._remote = PhilipsTVRemote.new(last_host.host, (last_host.id, last_host.key))
+            self.refresh()
 
     def _init_widgets(self) -> None:
         self.columnconfigure(0, weight=1)
@@ -50,18 +51,15 @@ class AppFrame(ttk.Frame):  # type: ignore[misc]
 
         self.grid()
 
-    def _init_host(self, host: str, auth: Optional[Tuple[str, str]] = None) -> PhilipsTVRemote:
-        self._remote = PhilipsTVRemote.new(host, auth)
+    def refresh(self) -> None:
         self._remote_panel.remote = self._remote
         self._channels_panel.remote = self._remote
         self._apps_panel.remote = self._remote
-        self.refresh()
-        return self._remote
 
-    def refresh(self) -> None:
         if self._remote:
             self._connector_panel.host_ip = self._remote.host
             self._connector_panel.enabled = not bool(self._remote.auth)
+
         self._channels_panel.refresh()
         self._apps_panel.refresh()
 
@@ -70,15 +68,20 @@ class AppFrame(ttk.Frame):  # type: ignore[misc]
             Messagebox.show_error("Enter the IP address!", "Pairing error", parent=self)
             return
 
-        remote = self._init_host(self._connector_panel.host_ip)
+        remote = PhilipsTVRemote.new(self._connector_panel.host_ip)
 
         try:
-            remote.pair(self._ask_for_pin)
+            credentials = remote.pair(self._ask_for_pin)
         except PhilipsTVPairingError as exc:
             Messagebox.show_error(str(exc), "Pairing error", parent=self)
             return
+        else:
+            self._remote = remote
         finally:
             self.refresh()
+
+        self._store.last_host = HostData(remote.host, *credentials)
+        self._store.save()
 
     def _on_input(self, _: Any) -> None:
         input_same_as_current = self._remote and self._remote.host == self._connector_panel.host_ip

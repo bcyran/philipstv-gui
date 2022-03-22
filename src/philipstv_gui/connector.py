@@ -14,17 +14,11 @@ class Connector(ttk.Frame):  # type: ignore[misc]
         self._host_ip = tk.StringVar(self)
         self._host_ip.trace_add("write", self._on_input)
 
-        self._ip_input = ttk.Entry(
-            self,
-            textvariable=self._host_ip,
-        )
+        self._ip_input = ttk.Entry(self, textvariable=self._host_ip)
+        self._ip_input.bind("<Return>", self._on_pair)
         self._ip_input.pack(fill="x", pady=(0, 5))
 
-        self._pair_button = ttk.Button(
-            self,
-            text="pair",
-            command=self._on_pair,
-        )
+        self._pair_button = ttk.Button(self, text="pair", command=self._on_pair)
         self._pair_button.pack(fill="x")
 
         self.pack()
@@ -32,8 +26,9 @@ class Connector(ttk.Frame):  # type: ignore[misc]
     def _on_input(self, *_: Any) -> None:
         self.event_generate("<<Input>>")
 
-    def _on_pair(self) -> None:
-        self.event_generate("<<Pair>>")
+    def _on_pair(self, *_: Any) -> None:
+        if self.enabled:
+            self.event_generate("<<Pair>>")
 
     @property
     def host_ip(self) -> str:
@@ -45,7 +40,7 @@ class Connector(ttk.Frame):  # type: ignore[misc]
 
     @property
     def enabled(self) -> bool:
-        return bool(self._pair_button["state"] == "normal")
+        return bool(str(self._pair_button["state"]) == "normal")
 
     @enabled.setter
     def enabled(self, value: bool) -> None:
