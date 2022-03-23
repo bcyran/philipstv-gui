@@ -25,7 +25,8 @@ class AppFrame(ttk.Frame):  # type: ignore[misc]
 
         if last_host := self._store.last_host:
             self._remote = PhilipsTVRemote.new(last_host.host, (last_host.id, last_host.key))
-            self.refresh()
+
+        self.refresh()
 
     def _init_widgets(self) -> None:
         self.columnconfigure(0, weight=1)
@@ -59,6 +60,8 @@ class AppFrame(ttk.Frame):  # type: ignore[misc]
         if self._remote:
             self._connector_panel.host_ip = self._remote.host
             self._connector_panel.enabled = not bool(self._remote.auth)
+        else:
+            self._connector_panel.focus()
 
         self._channels_panel.refresh()
         self._apps_panel.refresh()

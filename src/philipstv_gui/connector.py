@@ -45,3 +45,6 @@ class Connector(ttk.Frame):  # type: ignore[misc]
     @enabled.setter
     def enabled(self, value: bool) -> None:
         self._pair_button["state"] = "normal" if value else "disabled"
+
+    def focus(self) -> None:
+        self._ip_input.focus()
