@@ -6,7 +6,8 @@ from typing import Any, Callable, List, Optional
 import ttkbootstrap as ttk
 from philipstv import PhilipsTVRemote
 from philipstv.model import InputKeyValue
-from ttkbootstrap.dialogs.dialogs import Messagebox
+
+from .errors import handle_remote_errors, not_paired_error
 
 ButtonCallback = Callable[[InputKeyValue], None]
 
@@ -125,7 +126,8 @@ class Remote(ttk.Frame):  # type: ignore
             self._send_key(key)
 
     def _send_key(self, key: InputKeyValue) -> None:
-        if not self.remote or not self.remote.auth:
-            Messagebox.show_error("First pair with the TV!", "TV error", parent=self)
-            return
-        self.remote.input_key(key)
+        if not self.remote:
+            not_paired_error(self)
+        else:
+            with handle_remote_errors(self):
+                self.remote.input_key(key)

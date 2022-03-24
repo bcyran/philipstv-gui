@@ -3,15 +3,20 @@ from typing import Any, Optional
 
 import ttkbootstrap as ttk
 from philipstv import PhilipsTVRemote
-from philipstv.exceptions import PhilipsTVPairingError
+from philipstv.exceptions import PhilipsTVError, PhilipsTVPairingError
 from ttkbootstrap.dialogs.dialogs import Messagebox, Querybox
 
 from philipstv_gui.applications import Applications
 from philipstv_gui.channels import Channels
 from philipstv_gui.connector import Connector
 
+from .errors import connection_error, pairing_error
 from .remote import Remote
 from .storage import AppData, HostData
+
+
+class AbortPairing(Exception):
+    pass
 
 
 class AppFrame(ttk.Frame):  # type: ignore[misc]
@@ -75,22 +80,25 @@ class AppFrame(ttk.Frame):  # type: ignore[misc]
 
         try:
             credentials = remote.pair(self._ask_for_pin)
+        except AbortPairing:
+            pass
         except PhilipsTVPairingError as exc:
-            Messagebox.show_error(str(exc), "Pairing error", parent=self)
-            return
+            pairing_error(self, exc)
+        except PhilipsTVError:
+            connection_error(self)
         else:
             self._remote = remote
+            self._store.last_host = HostData(remote.host, *credentials)
+            self._store.save()
         finally:
             self.refresh()
-
-        self._store.last_host = HostData(remote.host, *credentials)
-        self._store.save()
 
     def _on_input(self, _: Any) -> None:
         input_same_as_current = self._remote and self._remote.host == self._connector_panel.host_ip
         self._connector_panel.enabled = not input_same_as_current
 
     def _ask_for_pin(self) -> str:
-        return Querybox.get_string(  # type: ignore[no-any-return]
-            "Enther PIN number displayed on the TV", "PIN", parent=self
-        )
+        response = Querybox.get_string("Enther PIN number displayed on the TV", "PIN", parent=self)
+        if response is None:
+            raise AbortPairing
+        return response  # type: ignore[no-any-return]
