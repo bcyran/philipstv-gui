@@ -6,6 +6,7 @@ from philipstv import PhilipsTVRemote
 from philipstv.exceptions import PhilipsTVError, PhilipsTVPairingError
 from ttkbootstrap.dialogs.dialogs import Messagebox, Querybox
 
+from philipstv_gui.ambilight import Ambilight
 from philipstv_gui.applications import Applications
 from philipstv_gui.channels import Channels
 from philipstv_gui.connector import Connector
@@ -55,12 +56,16 @@ class AppFrame(ttk.Frame):  # type: ignore[misc]
         self._apps_panel = Applications(notebook, self._remote)
         notebook.add(self._apps_panel, text="Apps")
 
+        self._ambilight_panel = Ambilight(self, self._remote)
+        notebook.add(self._ambilight_panel, text="Ambilight")
+
         self.grid()
 
     def refresh(self) -> None:
         self._remote_panel.remote = self._remote
         self._channels_panel.remote = self._remote
         self._apps_panel.remote = self._remote
+        self._ambilight_panel.remote = self._remote
 
         if self._remote:
             self._connector_panel.host_ip = self._remote.host
