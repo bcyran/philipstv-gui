@@ -75,6 +75,7 @@ class AppFrame(ttk.Frame):  # type: ignore[misc]
 
         self._channels_panel.refresh()
         self._apps_panel.refresh()
+        self._ambilight_panel.refresh()
 
     def _on_pair(self, _: Any) -> None:
         if not self._connector_panel.host_ip:
