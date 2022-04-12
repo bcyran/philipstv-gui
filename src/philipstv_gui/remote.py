@@ -6,6 +6,7 @@ from typing import Any, Callable, List, Optional
 import ttkbootstrap as ttk
 from philipstv import PhilipsTVRemote
 from philipstv.model import InputKeyValue
+from ttkbootstrap.dialogs import Dialog
 
 from .errors import handle_remote_errors, not_paired_error
 
@@ -89,6 +90,72 @@ BUTTONS = [
 ]
 
 
+class CapHelpDialog(Dialog):  # type: ignore[misc]
+    _HELP_TEXT = """\
+    Keyboard capture is a feature allowing you to interact with the TV by pressing keyboard keys. \
+    Keyboard keys are mapped to the TV remote buttons. Please remember that the application window \
+    has to be focused for this to work.
+
+    Available mappings:"""
+
+    _KEY_DISPLAY_MAP = {
+        "bracketleft": "[",
+        "bracketright": "]",
+        "minus": "-",
+        "plus": "+",
+        "Prior": "Page Down",
+        "Next": "Page Up",
+        "question": "?",
+    }
+
+    def __init__(self, container: ttk.Frame) -> None:
+        super().__init__(container, title="PhilipsTV GUI: Keyboard capture help")
+
+    def create_body(self, container: ttk.Frame) -> None:
+        frame = ttk.Frame(container)
+        frame.pack()
+
+        text = ttk.Label(frame, text=self._HELP_TEXT, wraplength=500)
+        text.pack(fill=tk.X, padx=5, pady=(5, 0))
+
+        mapping_list = ttk.Treeview(
+            container,
+            columns=("function", "key"),
+            show=ttk.HEADINGS,
+            height=5,
+            padding=5,
+        )
+        for col in mapping_list["columns"]:
+            mapping_list.heading(col, text=col.title(), anchor=tk.W)
+        mapping_list.pack(fill=tk.X, padx=5, pady=(0, 5))
+
+        mappings = 0
+        for button in BUTTONS:
+            if not button.keys:
+                continue
+            keys_string = ", ".join(map(self._get_display_key_name, button.keys))
+            mapping_list.insert("", tk.END, mappings, values=(button.label, keys_string))
+            mappings += 1
+
+    def _get_display_key_name(self, key: str) -> str:
+        return self._KEY_DISPLAY_MAP.get(key, key)
+
+    def create_buttonbox(self, container: ttk.Frame) -> None:
+        frame = ttk.Frame(container, padding=(5, 10))
+        frame.pack(side=tk.BOTTOM, fill=tk.X, anchor=tk.S)
+
+        submit = ttk.Button(
+            master=frame,
+            bootstyle="primary",
+            text="OK",
+            command=lambda: self._toplevel.destroy(),
+        )
+        submit.pack(padx=5, side=tk.RIGHT)
+        submit.lower()  # set focus traversal left-to-right
+
+        ttk.Separator(self._toplevel).pack(fill=tk.X)
+
+
 class Remote(ttk.Frame):  # type: ignore
     def __init__(self, container: ttk.Frame, remote: Optional[PhilipsTVRemote] = None) -> None:
         super().__init__(container)
@@ -116,6 +183,11 @@ class Remote(ttk.Frame):  # type: ignore
         self._cap_toggle = ttk.Checkbutton(self, text="Capture keyboard", bootstyle="round-toggle")
         self._cap_toggle.grid(row=row, column=0, columnspan=3, sticky=tk.NSEW, padx=1, pady=(1, 5))
 
+        cap_help = ttk.Button(
+            self._cap_toggle, text="(help)", bootstyle="info-link", command=self._show_cap_help
+        )
+        cap_help.pack(side=tk.RIGHT)
+
         self.grid()
 
     def _button_click(self, key: InputKeyValue) -> None:
@@ -131,3 +203,6 @@ class Remote(ttk.Frame):  # type: ignore
         else:
             with handle_remote_errors(self):
                 self.remote.input_key(key)
+
+    def _show_cap_help(self) -> None:
+        CapHelpDialog(self).show()
