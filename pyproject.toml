@@ -1,8 +1,17 @@
 [tool.poetry]
 name = "philipstv-gui"
 version = "0.1.0"
-description = ""
+description = "GUI remote for Philips Android-powered TVs."
+license = "MIT"
 authors = ["Bazyli Cyran <bazyli.cyran@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/bcyran/philipstv-gui"
+keywords = ["philips", "tv", "remote", "ambilight", "gui"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: End Users/Desktop",
+]
 
 [tool.poetry.scripts]
 philipstv-gui = "philipstv_gui.__main__:main"
