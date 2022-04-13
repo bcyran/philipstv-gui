@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "philipstv-gui"
-version = "0.1.0"
+version = "0.0.0"  # this will be set during build by poetry-dynamic-versioning
 description = "GUI remote for Philips Android-powered TVs."
 license = "MIT"
 authors = ["Bazyli Cyran <bazyli.cyran@gmail.com>"]
@@ -32,8 +32,21 @@ tox = "^3.24.5"
 types-appdirs = "^1.4.2"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
+pattern = """(?x)
+^(?P<base>\\d+(\\.\\d+)*)
+(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revision>\\d+)?))?
+(\\+(?P<tagged_metadata>.+))?$
+"""
+
+[tool.poetry-dynamic-versioning.substitution]
+files = ["src/philipstv-gui/__init__.py"]
 
 [tool.mypy]
 strict = true
