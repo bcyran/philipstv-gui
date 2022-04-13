@@ -1,6 +1,8 @@
 # PhilipstvTV GUI
 GUI remote for Philips Android-powered TVs.
 
+![PhilipstvTV GUI screenshots](https://github.com/bcyran/philipstv-gui/raw/master/philipstv-gui.png)
+
 Features:
 - Full remote emulation, all standard keys available.
 - List available channels and change between them.
