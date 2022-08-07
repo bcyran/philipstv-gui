@@ -15,6 +15,12 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
 ]
+packages = [
+    { include = "philipstv_gui", from = "src"}
+]
+include = [
+    { path = "src/philipstv_gui/**/*.py" },
+]
 
 [tool.poetry.scripts]
 philipstv-gui = "philipstv_gui.__main__:main"
