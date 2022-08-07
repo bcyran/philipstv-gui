@@ -17,9 +17,14 @@ Features:
 - Set Ambilight colors for each TV side separately.
 
 ## Installation
+
+### PyPI
 ```shell
 $ pip install philipstv-gui
 ```
+
+### Arch Linux
+[philipstv-gui AUR package](https://aur.archlinux.org/packages/philipstv-gui) is available.
 
 ## See also
 - [`philipstv`](https://github.com/bcyran/philipstv) - CLI and library for controlling Philips Android-powered TV's.
