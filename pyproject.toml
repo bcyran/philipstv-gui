@@ -8,7 +8,6 @@ readme = "README.md"
 repository = "https://github.com/bcyran/philipstv-gui"
 keywords = ["philips", "tv", "remote", "ambilight", "gui"]
 classifiers = [
-    "Development Status :: 4 - Beta",
     "License :: OSI Approved :: MIT License",
     "Intended Audience :: End Users/Desktop",
     "Programming Language :: Python :: 3 :: Only",
