@@ -26,7 +26,7 @@ philipstv-gui = "philipstv_gui.__main__:main"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-philipstv = ">=0.4,<1.1"
+philipstv = ">=0.4,<2"
 appdirs = "^1.4.4"
 ttkbootstrap = "^1.7.3"
 
