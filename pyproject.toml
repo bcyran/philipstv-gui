@@ -36,7 +36,7 @@ isort = "^5.10.1"
 flake8 = "^6.0.0"
 mypy = "^0.991"
 tox-poetry = "^0.4.1"
-tox = "^3.27.1"
+tox = "^4.0.16"
 types-appdirs = "^1.4.2"
 
 [build-system]
