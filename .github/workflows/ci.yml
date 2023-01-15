@@ -20,7 +20,7 @@ jobs:
         key: ${{ runner.os }}-python-${{ env.pythonLocation }}-${{ hashFiles('poetry.lock') }}-ci
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit != 'true'
-      run: pip install tox==3.28.0 tox-poetry poetry  # tox >= 4.0.0 breaks this whole setup...
+      run: pip install tox poetry
     - name: flake8
       run: tox -e flake8
     - name: black
