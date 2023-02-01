@@ -602,14 +602,14 @@ testing = ["build[virtualenv] (>=0.9)", "covdefaults (>=2.2.2)", "devpi-process 
 
 [[package]]
 name = "ttkbootstrap"
-version = "1.10.0"
+version = "1.10.1"
 description = "A supercharged theme extension for tkinter that enables on-demand modern flat style themes inspired by Bootstrap."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "ttkbootstrap-1.10.0-py3-none-any.whl", hash = "sha256:bf351b552d06208986cf7a86178d48167ca7475ae959341d55c94ae09a174e54"},
-    {file = "ttkbootstrap-1.10.0.tar.gz", hash = "sha256:5a9b580b6183b258a200dc5e344b7b52856272bfe7e38aedfb44046d4b543ed7"},
+    {file = "ttkbootstrap-1.10.1-py3-none-any.whl", hash = "sha256:c6a10ee5ea64051a0f8b75c20ef8e5f2417c62b4d0858c831683d4f2135aa573"},
+    {file = "ttkbootstrap-1.10.1.tar.gz", hash = "sha256:53925525c4104f9e345627500dced2d0392ad74324b2a81467aaee3ffbe1a474"},
 ]
 
 [package.dependencies]
