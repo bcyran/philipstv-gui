@@ -316,14 +316,14 @@ files = [
 
 [[package]]
 name = "philipstv"
-version = "1.0.0"
+version = "1.1.0"
 description = "CLI and library to control Philips Android-powered TVs."
 category = "main"
 optional = false
 python-versions = ">=3.9,<4.0"
 files = [
-    {file = "philipstv-1.0.0-py3-none-any.whl", hash = "sha256:9b798292339309e87b48e8e24f85ea22efbe1dca6b94fbf3dfdc288597e6a899"},
-    {file = "philipstv-1.0.0.tar.gz", hash = "sha256:924d655ff5a92c3926161b87a773de84136ab921bd44fd9f2a88ab151158dee6"},
+    {file = "philipstv-1.1.0-py3-none-any.whl", hash = "sha256:1db8cab3c9a6d6e2bbbaf63984b4a6e1d783d2c409f3759c084e66dc259b96ef"},
+    {file = "philipstv-1.1.0.tar.gz", hash = "sha256:367b18a76803a75959f51569823c067e1fbcdd1e497623b9a0483378f48cde4d"},
 ]
 
 [package.dependencies]
