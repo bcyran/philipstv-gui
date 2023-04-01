@@ -20,12 +20,14 @@ jobs:
         key: ${{ runner.os }}-python-${{ env.pythonLocation }}-${{ hashFiles('poetry.lock') }}-ci
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit != 'true'
-      run: pip install tox poetry
+      run: |
+        pip install poetry
+        poetry install --no-root --sync
     - name: flake8
-      run: tox -e flake8
+      run: poetry run tox -e flake8
     - name: black
-      run: tox -e black
+      run: poetry run tox -e black
     - name: isort
-      run: tox -e isort
+      run: poetry run tox -e isort
     - name: mypy
-      run: tox -e mypy
+      run: poetry run tox -e mypy
