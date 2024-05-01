@@ -35,7 +35,7 @@ ttkbootstrap = "^1.7.3"
 black = "^24.4.2"
 isort = "^5.13.2"
 flake8 = "^7.0.0"
-mypy = "^1.9"
+mypy = "^1.10"
 tox = "^4.14.2"
 types-appdirs = "^1.4.3"
 
