@@ -301,13 +301,13 @@ files = [
 
 [[package]]
 name = "philipstv"
-version = "2.1.0"
+version = "2.1.1"
 description = "CLI and library to control Philips Android-powered TVs."
 optional = false
-python-versions = ">=3.9,<4.0"
+python-versions = "<4.0,>=3.9"
 files = [
-    {file = "philipstv-2.1.0-py3-none-any.whl", hash = "sha256:98dfdf839d5b0bc789e22358d389c1a24a8b0eb4aeaf35db20c6e59cebcd61f5"},
-    {file = "philipstv-2.1.0.tar.gz", hash = "sha256:b4cc6e1778747f5b2ec95315a39bd817637881612923578bea11ae607ac29746"},
+    {file = "philipstv-2.1.1-py3-none-any.whl", hash = "sha256:fc2a9880fba7588b2eb22b7f8d515270f0f2ca8eb19e18078c875522383a3aab"},
+    {file = "philipstv-2.1.1.tar.gz", hash = "sha256:976dac368c3d357d9b1b4bb27b6ab1756328d28a8a3a484ffab65bcc4d6d917e"},
 ]
 
 [package.dependencies]
@@ -316,7 +316,7 @@ requests = ">=2.27.1,<3.0.0"
 
 [package.extras]
 cli = ["appdirs (>=1.4.4,<2.0.0)", "click (>=8.0.3,<9.0.0)"]
-docs = ["Sphinx (>=7.2.6,<8.0.0)", "enum-tools[sphinx] (>=0.11.0,<0.12.0)", "furo (>=2023.3.27,<2024.0.0)"]
+docs = ["Sphinx (>=7.2.6,<8.0.0)", "enum-tools[sphinx] (>=0.12.0,<0.13.0)", "furo (>=2024.1.29,<2025.0.0)"]
 
 [[package]]
 name = "pillow"
