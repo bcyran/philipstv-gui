@@ -35,7 +35,7 @@ ttkbootstrap = "^1.7.3"
 [tool.poetry.dev-dependencies]
 black = "^24.4.2"
 isort = "^5.13.2"
-flake8 = "^7.1.0"
+flake8 = "^7.1.1"
 mypy = "^1.11"
 tox = "^4.16.0"
 types-appdirs = "^1.4.3"
