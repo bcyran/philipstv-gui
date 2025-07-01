@@ -744,14 +744,14 @@ test = ["devpi-process (>=1.0.2)", "pytest (>=8.3.4)", "pytest-mock (>=3.14)"]
 
 [[package]]
 name = "ttkbootstrap"
-version = "1.13.8"
+version = "1.13.12"
 description = "A supercharged theme extension for tkinter that enables on-demand modern flat style themes inspired by Bootstrap."
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "ttkbootstrap-1.13.8-py3-none-any.whl", hash = "sha256:e6ca6b4ddac7ad6042439187192caf2a722ffb1e4a54cbc50fa1e14ef3ecd81f"},
-    {file = "ttkbootstrap-1.13.8.tar.gz", hash = "sha256:5352f12d529459cbd891aa07c31dc85288a1086fc379b9f663b628bd8eff6b3d"},
+    {file = "ttkbootstrap-1.13.12-py3-none-any.whl", hash = "sha256:56b60767d257ab20851bbd1997f991b51017e6246542cf5620c980f7d41c88ec"},
+    {file = "ttkbootstrap-1.13.12.tar.gz", hash = "sha256:cf6d399cfd0e3508fc4df0a1e25d5b40caaca7223c2499f1746132dd362763bf"},
 ]
 
 [package.dependencies]
