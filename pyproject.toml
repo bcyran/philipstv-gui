@@ -37,7 +37,7 @@ black = "^25.1.0"
 isort = "^6.0.1"
 flake8 = "^7.3.0"
 mypy = "^1.18"
-tox = "^4.29.0"
+tox = "^4.30.2"
 types-appdirs = "^1.4.3"
 
 [build-system]
