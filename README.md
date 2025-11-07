@@ -1,6 +1,6 @@
 # PhilipstvTV GUI
 
-[![CI](https://github.com/bcyran/philipstv-gui/workflows/CI/badge.svg?event=push)](https://github.com/bcyran/philipstv/actions?query=event%3Apush+branch%3Amaster+workflow%3ACI)
+[![CI](https://github.com/bcyran/philipstv-gui/actions/workflows/ci.yml/badge.svg)](https://github.com/bcyran/philipstv-gui/actions/workflows/ci.yml)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![pypi](https://img.shields.io/pypi/v/philipstv-gui)](https://pypi.org/project/philipstv-gui/)
 [![versions](https://img.shields.io/pypi/pyversions/philipstv-gui)](https://pypi.org/project/philipstv-gui/)
