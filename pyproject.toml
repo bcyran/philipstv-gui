@@ -1,11 +1,10 @@
-[tool.poetry]
+[project]
 name = "philipstv-gui"
-version = "0.0.0" # this will be set during build by poetry-dynamic-versioning
+dynamic = ["version"]
 description = "GUI remote for Philips Android-powered TVs."
-license = "MIT"
-authors = ["Bazyli Cyran <bazyli.cyran@gmail.com>"]
 readme = "README.md"
-repository = "https://github.com/bcyran/philipstv-gui"
+requires-python = ">=3.10"
+maintainers = [{ name = "Bazyli Cyran", email = "bazyli@cyran.dev" }]
 keywords = ["philips", "tv", "remote", "ambilight", "gui"]
 classifiers = [
     "License :: OSI Approved :: MIT License",
@@ -16,19 +15,21 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
-packages = [{ include = "philipstv_gui", from = "src" }]
-include = [{ path = "src/philipstv_gui/**/*.py" }]
+dependencies = ["philipstv>=0.4", "appdirs>=1.4.4", "ttkbootstrap>=1.7.3"]
 
-[tool.poetry.scripts]
+[project.urls]
+repository = "https://github.com/bcyran/philipstv-gui"
+
+[project.gui-scripts]
 philipstv-gui = "philipstv_gui.__main__:main"
 
-[tool.poetry.dependencies]
-python = "^3.10"
-philipstv = ">=0.4"
-appdirs = "^1.4.4"
-ttkbootstrap = "^1.7.3"
+[tool.poetry]
+license = "MIT"
+packages = [{ include = "philipstv_gui", from = "src" }]
+include = [{ path = "src/philipstv_gui/**/*.py" }]
+version = "0.0.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = "^25.9.0"
 isort = "^6.1.0"
 flake8 = "^7.3.0"
@@ -39,6 +40,10 @@ types-appdirs = "^1.4.3"
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
 build-backend = "poetry_dynamic_versioning.backend"
+
+
+[tool.poetry.requires-plugins]
+poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = ["plugin"] }
 
 [tool.poetry-dynamic-versioning]
 enable = true
