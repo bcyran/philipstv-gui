@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "philipstv-gui"
-version = "0.0.0"  # this will be set during build by poetry-dynamic-versioning
+version = "0.0.0" # this will be set during build by poetry-dynamic-versioning
 description = "GUI remote for Philips Android-powered TVs."
 license = "MIT"
 authors = ["Bazyli Cyran <bazyli.cyran@gmail.com>"]
@@ -14,21 +14,17 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12"
+    "Programming Language :: Python :: 3.12",
 ]
-packages = [
-    { include = "philipstv_gui", from = "src"}
-]
-include = [
-    { path = "src/philipstv_gui/**/*.py" },
-]
+packages = [{ include = "philipstv_gui", from = "src" }]
+include = [{ path = "src/philipstv_gui/**/*.py" }]
 
 [tool.poetry.scripts]
 philipstv-gui = "philipstv_gui.__main__:main"
 
 [tool.poetry.dependencies]
-python = "^3.9"
-philipstv = ">=0.4,<3"
+python = "^3.10"
+philipstv = ">=0.4"
 appdirs = "^1.4.4"
 ttkbootstrap = "^1.7.3"
 
