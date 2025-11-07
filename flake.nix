@@ -2,51 +2,52 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     systems.url = "github:nix-systems/default";
-    devenv.url = "github:cachix/devenv";
-    devenv.inputs.nixpkgs.follows = "nixpkgs";
-  };
-
-  nixConfig = {
-    extra-trusted-public-keys = "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=";
-    extra-substituters = "https://devenv.cachix.org";
   };
 
   outputs = {
-    self,
     nixpkgs,
-    devenv,
     systems,
     ...
-  } @ inputs: let
+  }: let
     forEachSystem = nixpkgs.lib.genAttrs (import systems);
   in {
     devShells =
       forEachSystem
       (system: let
         pkgs = nixpkgs.legacyPackages.${system};
+
+        sharedLibs = with pkgs; [
+          stdenv.cc.cc
+          libxcrypt
+          file
+        ];
       in {
-        default = devenv.lib.mkShell {
-          inherit inputs pkgs;
-          modules = [
-            ({pkgs, ...}: {
-              languages.python = {
-                enable = true;
-                poetry = {
-                  enable = true;
-                  install = {
-                    enable = true;
-                    installRootPackage = true;
-                  };
-                  activate.enable = true;
-                };
-              };
-              packages = with pkgs; [
-                pyright
-                tk
-                python3.pkgs.tkinter
-              ];
-            })
+        default = pkgs.mkShell {
+          packages = with pkgs; [
+            python3
+            uv
+            pyright
+            tk
+            python3.pkgs.tkinter
           ];
+
+          NIX_LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath sharedLibs;
+          LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath sharedLibs;
+          TOX_TESTENV_PASSENV = "NIX_LD_LIBRARY_PATH";
+
+          shellHook = ''
+            if [[ ! -d ".venv" ]]; then
+              echo "No virtual environment found, creating..."
+              uv venv --python ${pkgs.python3}/bin/python3 --prompt "$(basename $PWD)" .venv
+              source .venv/bin/activate
+              uv pip install poetry
+            else
+              source .venv/bin/activate
+            fi
+
+            poetry install --all-extras --all-groups
+            echo "Virtual environment ready!"
+          '';
         };
       });
   };
