@@ -859,18 +859,18 @@ virtualenv = ">=20.34"
 
 [[package]]
 name = "ttkbootstrap"
-version = "1.14.2"
+version = "1.19.2"
 description = "A supercharged theme extension for tkinter that enables on-demand modern flat style themes inspired by Bootstrap."
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "ttkbootstrap-1.14.2-py3-none-any.whl", hash = "sha256:a0c2dfc952941ae9eb3e8b976d0e4361405ca578d3639d871e589c9fe053388a"},
-    {file = "ttkbootstrap-1.14.2.tar.gz", hash = "sha256:aae7885211bdeb134c8af07b0c67c89a50d7997b116199068271ed99b55bc530"},
+    {file = "ttkbootstrap-1.19.2-py3-none-any.whl", hash = "sha256:58b288e92b0e8aa264a2733f57d9e5a41a8d868e0d8439367d689b8ba3e215eb"},
+    {file = "ttkbootstrap-1.19.2.tar.gz", hash = "sha256:c557e3b0bcc0cdb9474433721323ec645a04255325fd7247bb65425491815a6e"},
 ]
 
 [package.dependencies]
-pillow = ">=10,<11"
+pillow = ">=10,<=12"
 
 [[package]]
 name = "types-appdirs"
