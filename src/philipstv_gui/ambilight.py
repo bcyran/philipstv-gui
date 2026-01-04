@@ -27,15 +27,15 @@ DEFAULT_COLOR = (255, 255, 255)
 
 
 class ColorButton(LegacyButton):
-    def __init__(self, container: ttk.Frame, **kwargs: Any) -> None:
+    def __init__(self, container: tk.Widget, **kwargs: Any) -> None:
         super().__init__(  # type: ignore[call-arg]
             container, autostyle=False, relief=tk.FLAT, **kwargs
         )
         self.set_color(DEFAULT_COLOR)
 
     def set_color(self, color: Color) -> None:
-        hex_color = color_to_hex(color)
-        contrast_hex_color = contrast_color(color)
+        hex_color = color_to_hex(color)  # type: ignore[no-untyped-call]
+        contrast_hex_color = contrast_color(color)  # type: ignore[no-untyped-call]
         self.configure(
             background=hex_color,
             activebackground=hex_color,
@@ -44,8 +44,8 @@ class ColorButton(LegacyButton):
         )
 
 
-class Ambilight(ttk.Frame):  # type: ignore[misc]
-    def __init__(self, container: ttk.Frame, remote: Optional[PhilipsTVRemote]) -> None:
+class Ambilight(ttk.Frame):
+    def __init__(self, container: tk.Widget, remote: Optional[PhilipsTVRemote]) -> None:
         super().__init__(container)
 
         self.remote = remote
@@ -133,16 +133,16 @@ class Ambilight(ttk.Frame):  # type: ignore[misc]
 
     @property
     def _ambilight_enabled(self) -> bool:
-        return "selected" in self._power_toggle.state()
+        return "selected" in self._power_toggle.state()  # type: ignore[no-untyped-call]
 
     @_ambilight_enabled.setter
     def _ambilight_enabled(self, state: bool) -> None:
-        self._power_toggle.state(["selected"] if state else [])
+        self._power_toggle.state(["selected"] if state else [])  # type: ignore[no-untyped-call]
 
     @property
     def _sides_locked(self) -> bool:
-        return "selected" in self._lock_toggle.state()
+        return "selected" in self._lock_toggle.state()  # type: ignore[no-untyped-call]
 
     @_sides_locked.setter
     def _sides_locked(self, state: bool) -> None:
-        self._lock_toggle.state(["selected"] if state else [])
+        self._lock_toggle.state(["selected"] if state else [])  # type: ignore[no-untyped-call]

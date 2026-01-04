@@ -7,8 +7,8 @@ from philipstv.remote import PhilipsTVRemote
 from philipstv_gui.errors import handle_remote_errors, not_paired_error
 
 
-class Applications(ttk.Frame):  # type: ignore[misc]
-    def __init__(self, container: ttk.Frame, remote: Optional[PhilipsTVRemote]) -> None:
+class Applications(ttk.Frame):
+    def __init__(self, container: tk.Widget, remote: Optional[PhilipsTVRemote]) -> None:
         super().__init__(container)
 
         self.remote = remote

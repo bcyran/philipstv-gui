@@ -4,8 +4,8 @@ from typing import Any
 import ttkbootstrap as ttk
 
 
-class Connector(ttk.Frame):  # type: ignore[misc]
-    def __init__(self, container: ttk.Frame) -> None:
+class Connector(ttk.Frame):
+    def __init__(self, container: tk.Widget) -> None:
         super().__init__(container)
 
         self._init_widgets()

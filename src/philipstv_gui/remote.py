@@ -90,7 +90,7 @@ BUTTONS = [
 ]
 
 
-class CapHelpDialog(Dialog):  # type: ignore[misc]
+class CapHelpDialog(Dialog):
     _HELP_TEXT = """\
     Keyboard capture is a feature allowing you to interact with the TV by pressing keyboard keys. \
     Keyboard keys are mapped to the TV remote buttons. Please remember that the application window \
@@ -108,10 +108,10 @@ class CapHelpDialog(Dialog):  # type: ignore[misc]
         "question": "?",
     }
 
-    def __init__(self, container: ttk.Frame) -> None:
+    def __init__(self, container: tk.Misc) -> None:
         super().__init__(container, title="PhilipsTV GUI: Keyboard capture help")
 
-    def create_body(self, container: ttk.Frame) -> None:
+    def create_body(self, container: tk.Misc) -> None:
         frame = ttk.Frame(container)
         frame.pack()
 
@@ -121,7 +121,7 @@ class CapHelpDialog(Dialog):  # type: ignore[misc]
         mapping_list = ttk.Treeview(
             container,
             columns=("function", "key"),
-            show=ttk.HEADINGS,
+            show="headings",
             height=5,
             padding=5,
         )
@@ -140,7 +140,7 @@ class CapHelpDialog(Dialog):  # type: ignore[misc]
     def _get_display_key_name(self, key: str) -> str:
         return self._KEY_DISPLAY_MAP.get(key, key)
 
-    def create_buttonbox(self, container: ttk.Frame) -> None:
+    def create_buttonbox(self, container: tk.Misc) -> None:
         frame = ttk.Frame(container, padding=(5, 10))
         frame.pack(side=tk.BOTTOM, fill=tk.X, anchor=tk.S)
 
@@ -148,7 +148,7 @@ class CapHelpDialog(Dialog):  # type: ignore[misc]
             master=frame,
             bootstyle="primary",
             text="OK",
-            command=lambda: self._toplevel.destroy(),
+            command=lambda: self._toplevel.destroy(),  # type: ignore[attr-defined]
         )
         submit.pack(padx=5, side=tk.RIGHT)
         submit.lower()  # set focus traversal left-to-right
@@ -156,8 +156,8 @@ class CapHelpDialog(Dialog):  # type: ignore[misc]
         ttk.Separator(self._toplevel).pack(fill=tk.X)
 
 
-class Remote(ttk.Frame):  # type: ignore
-    def __init__(self, container: ttk.Frame, remote: Optional[PhilipsTVRemote] = None) -> None:
+class Remote(ttk.Frame):
+    def __init__(self, container: tk.Widget, remote: Optional[PhilipsTVRemote] = None) -> None:
         super().__init__(container)
 
         self.remote = remote
@@ -184,7 +184,10 @@ class Remote(ttk.Frame):  # type: ignore
         self._cap_toggle.grid(row=row, column=0, columnspan=3, sticky=tk.NSEW, padx=1, pady=(1, 5))
 
         cap_help = ttk.Button(
-            self._cap_toggle, text="(help)", bootstyle="info-link", command=self._show_cap_help
+            self._cap_toggle,
+            text="(help)",
+            bootstyle="info-link",
+            command=self._show_cap_help,
         )
         cap_help.pack(side=tk.RIGHT)
 
@@ -194,7 +197,7 @@ class Remote(ttk.Frame):  # type: ignore
         self._send_key(key)
 
     def _button_keypress(self, key: InputKeyValue, *_: Any) -> None:
-        if "selected" in self._cap_toggle.state():
+        if "selected" in self._cap_toggle.state():  # type: ignore[no-untyped-call]
             self._send_key(key)
 
     def _send_key(self, key: InputKeyValue) -> None:

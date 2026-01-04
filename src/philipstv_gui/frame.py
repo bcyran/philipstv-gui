@@ -20,7 +20,7 @@ class AbortPairing(Exception):
     pass
 
 
-class AppFrame(ttk.Frame):  # type: ignore[misc]
+class AppFrame(ttk.Frame):
     def __init__(self, container: tk.Tk, store: AppData) -> None:
         super().__init__(container)
 
@@ -107,4 +107,4 @@ class AppFrame(ttk.Frame):  # type: ignore[misc]
         response = Querybox.get_string("Enther PIN number displayed on the TV", "PIN", parent=self)
         if response is None:
             raise AbortPairing
-        return response  # type: ignore[no-any-return]
+        return response

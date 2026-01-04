@@ -7,7 +7,7 @@ from .frame import AppFrame
 from .storage import AppData
 
 
-class App(Window):  # type: ignore
+class App(Window):
     def __init__(self) -> None:
         super().__init__(title="PhilipsTV GUI")
 
@@ -24,4 +24,4 @@ class App(Window):  # type: ignore
 
         AppFrame(self, self._app_data).grid(row=0, column=0, sticky=tk.NSEW)
 
-        self.grid()
+        self.grid()  # type: ignore[no-untyped-call]
