@@ -2,7 +2,7 @@ import tkinter as tk
 from enum import Enum
 from functools import partial
 from tkinter import Button as LegacyButton
-from typing import Any, Dict, Optional, Tuple
+from typing import Any
 
 import ttkbootstrap as ttk
 from philipstv import AmbilightColor, PhilipsTVRemote
@@ -20,7 +20,7 @@ class AmbilightSide(Enum):
     BOTTOM = "bottom"
 
 
-Color = Tuple[int, int, int]
+Color = tuple[int, int, int]
 
 
 DEFAULT_COLOR = (255, 255, 255)
@@ -45,13 +45,13 @@ class ColorButton(LegacyButton):
 
 
 class Ambilight(ttk.Frame):
-    def __init__(self, container: tk.Widget, remote: Optional[PhilipsTVRemote]) -> None:
+    def __init__(self, container: tk.Widget, remote: PhilipsTVRemote | None) -> None:
         super().__init__(container)
 
         self.remote = remote
 
-        self._colors: Dict[AmbilightSide, Color] = {side: DEFAULT_COLOR for side in AmbilightSide}
-        self._color_buttons: Dict[AmbilightSide, ColorButton] = {}
+        self._colors: dict[AmbilightSide, Color] = dict.fromkeys(AmbilightSide, DEFAULT_COLOR)
+        self._color_buttons: dict[AmbilightSide, ColorButton] = {}
 
         self._init_widgets()
         self.refresh()

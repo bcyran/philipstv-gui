@@ -1,7 +1,7 @@
 import json
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 from appdirs import user_data_dir
 
@@ -15,13 +15,13 @@ class HostData:
     key: str
 
     @classmethod
-    def from_dict(cls, raw_dict: Dict[str, Any]) -> "HostData":
+    def from_dict(cls, raw_dict: dict[str, Any]) -> "HostData":
         return cls(host=raw_dict["host"], id=raw_dict["id"], key=raw_dict["key"])
 
 
 @dataclass
 class AppData:
-    last_host: Optional[HostData]
+    last_host: HostData | None
 
     @classmethod
     def load(cls) -> "AppData":

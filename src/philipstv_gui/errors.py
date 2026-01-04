@@ -1,5 +1,5 @@
+from collections.abc import Iterator
 from contextlib import contextmanager
-from typing import Iterator
 
 import ttkbootstrap as ttk
 from philipstv.exceptions import PhilipsTVAPIUnauthorizedError, PhilipsTVError

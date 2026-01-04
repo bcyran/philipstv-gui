@@ -1,5 +1,5 @@
 import tkinter as tk
-from typing import Any, Optional
+from typing import Any
 
 import ttkbootstrap as ttk
 from philipstv import PhilipsTVRemote
@@ -16,7 +16,7 @@ from .remote import Remote
 from .storage import AppData, HostData
 
 
-class AbortPairing(Exception):
+class AbortPairingError(Exception):
     pass
 
 
@@ -25,7 +25,7 @@ class AppFrame(ttk.Frame):
         super().__init__(container)
 
         self._store: AppData = store
-        self._remote: Optional[PhilipsTVRemote] = None
+        self._remote: PhilipsTVRemote | None = None
 
         self._init_widgets()
 
@@ -86,7 +86,7 @@ class AppFrame(ttk.Frame):
 
         try:
             credentials = remote.pair(self._ask_for_pin)
-        except AbortPairing:
+        except AbortPairingError:
             pass
         except PhilipsTVPairingError as exc:
             pairing_error(self, exc)
@@ -106,5 +106,5 @@ class AppFrame(ttk.Frame):
     def _ask_for_pin(self) -> str:
         response = Querybox.get_string("Enther PIN number displayed on the TV", "PIN", parent=self)
         if response is None:
-            raise AbortPairing
+            raise AbortPairingError
         return response

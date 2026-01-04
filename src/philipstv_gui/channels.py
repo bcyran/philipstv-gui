@@ -1,5 +1,5 @@
 import tkinter as tk
-from typing import Any, List, Optional
+from typing import Any
 
 import ttkbootstrap as ttk
 from philipstv.remote import PhilipsTVRemote
@@ -8,11 +8,11 @@ from philipstv_gui.errors import handle_remote_errors, not_paired_error
 
 
 class Channels(ttk.Frame):
-    def __init__(self, container: tk.Widget, remote: Optional[PhilipsTVRemote]) -> None:
+    def __init__(self, container: tk.Widget, remote: PhilipsTVRemote | None) -> None:
         super().__init__(container)
 
         self.remote = remote
-        self._channels_list: List[str] = []
+        self._channels_list: list[str] = []
 
         self._init_widgets()
         self.refresh()

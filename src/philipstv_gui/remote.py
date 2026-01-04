@@ -1,7 +1,8 @@
 import tkinter as tk
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from functools import partial
-from typing import Any, Callable, List, Optional
+from typing import Any, ClassVar
 
 import ttkbootstrap as ttk
 from philipstv import PhilipsTVRemote
@@ -19,7 +20,7 @@ class RemoteButton:
     column: int
     label: str
     value: InputKeyValue
-    keys: List[str] = field(default_factory=list)
+    keys: list[str] = field(default_factory=list)
     rowspan: int = 1
     colspan: int = 1
 
@@ -98,7 +99,7 @@ class CapHelpDialog(Dialog):
 
     Available mappings:"""
 
-    _KEY_DISPLAY_MAP = {
+    _KEY_DISPLAY_MAP: ClassVar[dict[str, str]] = {
         "bracketleft": "[",
         "bracketright": "]",
         "minus": "-",
@@ -157,7 +158,7 @@ class CapHelpDialog(Dialog):
 
 
 class Remote(ttk.Frame):
-    def __init__(self, container: tk.Widget, remote: Optional[PhilipsTVRemote] = None) -> None:
+    def __init__(self, container: tk.Widget, remote: PhilipsTVRemote | None = None) -> None:
         super().__init__(container)
 
         self.remote = remote
@@ -169,7 +170,7 @@ class Remote(ttk.Frame):
         self.columnconfigure(1, weight=1)
         self.columnconfigure(2, weight=1)
 
-        for row in set(map(lambda button: button.row, BUTTONS)):
+        for row in {button.row for button in BUTTONS}:
             self.rowconfigure(row, weight=1)
 
         for button in BUTTONS:
