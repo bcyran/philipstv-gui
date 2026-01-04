@@ -3,6 +3,7 @@ name = "philipstv-gui"
 dynamic = ["version"]
 description = "GUI remote for Philips Android-powered TVs."
 readme = "README.md"
+license = { text = "MIT" }
 requires-python = ">=3.10"
 maintainers = [{ name = "Bazyli Cyran", email = "bazyli@cyran.dev" }]
 keywords = ["philips", "tv", "remote", "ambilight", "gui"]
@@ -10,7 +11,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Intended Audience :: End Users/Desktop",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -23,44 +23,55 @@ repository = "https://github.com/bcyran/philipstv-gui"
 [project.gui-scripts]
 philipstv-gui = "philipstv_gui.__main__:main"
 
-[tool.poetry]
-license = "MIT"
-packages = [{ include = "philipstv_gui", from = "src" }]
-include = [{ path = "src/philipstv_gui/**/*.py" }]
-version = "0.0.0"
-
-[tool.poetry.group.dev.dependencies]
-black = "^25.9.0"
-isort = "^7.0.0"
-flake8 = "^7.3.0"
-mypy = "^1.18"
-tox = "^4.30.3"
-types-appdirs = "^1.4.3"
+[dependency-groups]
+dev = [
+    "black>=25.9.0",
+    "isort>=7.0.0",
+    "flake8>=7.3.0",
+    "mypy>=1.18",
+    "poethepoet>=0.25.0",
+    "types-appdirs>=1.4.3",
+]
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
-build-backend = "poetry_dynamic_versioning.backend"
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
 
+[tool.hatch.version]
+source = "vcs"
 
-[tool.poetry.requires-plugins]
-poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = ["plugin"] }
+[tool.hatch.version.raw-options]
+tag_regex = "^(?P<version>\\d+\\.\\d+\\.\\d+.*)$"
 
-[tool.poetry-dynamic-versioning]
-enable = true
-vcs = "git"
-style = "semver"
-pattern = """(?x)
-^(?P<base>\\d+(\\.\\d+)*)
-(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revision>\\d+)?))?
-(\\+(?P<tagged_metadata>.+))?$
-"""
+[tool.hatch.build.hooks.vcs]
+version-file = "src/philipstv_gui/_version.py"
 
-[tool.poetry-dynamic-versioning.substitution]
-files = ["src/philipstv-gui/__init__.py"]
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/LICENSE", "/README.md"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/philipstv_gui"]
+
+[tool.poe.tasks]
+mypy = "mypy src"
+black = "black --check --diff src"
+flake8 = "flake8 src"
+isort = "isort --check --diff src"
+black-fix = "black src"
+isort-fix = "isort src"
+
+[tool.poe.tasks.format]
+sequence = ["black-fix", "isort-fix"]
+help = "Format code with black and isort"
+
+[tool.poe.tasks.check]
+sequence = ["mypy", "black", "flake8", "isort"]
+help = "Run all quality checks (tests, type checking, formatting, linting)"
 
 [tool.mypy]
 strict = true
 show_error_codes = true
+exclude = ["_version\\.py$"]
 
 [[tool.mypy.overrides]]
 module = "ttkbootstrap.*"
@@ -72,3 +83,4 @@ line-length = 100
 [tool.isort]
 profile = "black"
 line_length = 100
+skip_glob = ["*/_version.py"]

@@ -1,1 +1,6 @@
-__version__ = "0.0.0"  # This will be set during build by poetry-dynamic-versioning
+try:
+    from philipstv_gui._version import __version__
+except ImportError:
+    __version__ = "0.0.0+unknown"
+
+__all__ = ["__version__"]

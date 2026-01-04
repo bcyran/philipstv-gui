@@ -38,14 +38,11 @@
           shellHook = ''
             if [[ ! -d ".venv" ]]; then
               echo "No virtual environment found, creating..."
-              uv venv --python ${pkgs.python3}/bin/python3 --prompt "$(basename $PWD)" .venv
-              source .venv/bin/activate
-              uv pip install poetry
-            else
-              source .venv/bin/activate
+              uv venv --prompt "$(basename $PWD)" .venv
             fi
+            source .venv/bin/activate
 
-            poetry install --all-extras --all-groups
+            uv sync --all-extras
             echo "Virtual environment ready!"
           '';
         };
