@@ -20,8 +20,7 @@ def authentication_error(parent: ttk.Frame) -> None:
 
 def connection_error(parent: ttk.Frame) -> None:
     Messagebox.show_error(
-        "Could not connect with the TV. "
-        "Make sure the IP address is correct and TV is powered on.",
+        "Could not connect with the TV. Make sure the IP address is correct and TV is powered on.",
         "TV connection error",
         parent=parent,
     )

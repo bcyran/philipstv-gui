@@ -27,9 +27,7 @@ philipstv-gui = "philipstv_gui.__main__:main"
 
 [dependency-groups]
 dev = [
-    "black>=25.9.0",
-    "isort>=7.0.0",
-    "flake8>=7.3.0",
+    "ruff>=0.8.0",
     "mypy>=1.18",
     "poethepoet>=0.25.0",
     "types-appdirs>=1.4.3",
@@ -55,20 +53,10 @@ include = ["/src", "/LICENSE", "/README.md"]
 packages = ["src/philipstv_gui"]
 
 [tool.poe.tasks]
-mypy = "mypy src"
-black = "black --check --diff src"
-flake8 = "flake8 src"
-isort = "isort --check --diff src"
-black-fix = "black src"
-isort-fix = "isort src"
-
-[tool.poe.tasks.format]
-sequence = ["black-fix", "isort-fix"]
-help = "Format code with black and isort"
-
-[tool.poe.tasks.check]
-sequence = ["mypy", "black", "flake8", "isort"]
-help = "Run all quality checks (tests, type checking, formatting, linting)"
+type-check = "mypy src"
+lint = "ruff check src"
+format-check = "ruff format --check --diff src"
+format = "ruff format src"
 
 [tool.mypy]
 strict = true
@@ -79,10 +67,17 @@ exclude = ["_version\\.py$"]
 module = "ttkbootstrap.*"
 ignore_missing_imports = true
 
-[tool.black]
+[tool.ruff]
 line-length = 100
+exclude = ["*/_version.py"]
 
-[tool.isort]
-profile = "black"
-line_length = 100
-skip_glob = ["*/_version.py"]
+[tool.ruff.lint]
+select = ["E", "F"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.poe.tasks.check]
+help = "Run all quality checks (tests, type checking, formatting, linting)"
+sequence = ["type-check", "lint", "format-check"]
