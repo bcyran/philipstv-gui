@@ -275,15 +275,15 @@ wheels = [
 
 [[package]]
 name = "philipstv"
-version = "3.0.1"
+version = "3.0.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d9/3a/6b52d7401d329a32eac675eb55ae35e592cb8764715e787841b882ab9804/philipstv-3.0.1.tar.gz", hash = "sha256:ddf79483daccbb8486bee4bde911c36a79eea68cb09d887867a6a1163da36769", size = 27514, upload-time = "2025-11-07T20:22:35.17Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/3c/ce/01c75ae5d8941f303b834a9fd1a6ac60a5b2b78998fdc37ea0a41723abe0/philipstv-3.0.2.tar.gz", hash = "sha256:02865a2912789759c4fefc53f6d31705ebf7a01c2db4cafdad5bde049b13d4db", size = 28263, upload-time = "2026-01-05T11:44:54.618Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/69/08/6e7266c28a4d65847eae0b55ad1e3856240ed0e84dbac38166095401543a/philipstv-3.0.1-py3-none-any.whl", hash = "sha256:3446ecf9a5103f9634fab0871e97d91ab858ca8d7360958a77360149a161df59", size = 25996, upload-time = "2025-11-07T20:22:33.711Z" },
+    { url = "https://files.pythonhosted.org/packages/1f/a5/c899ae59208564f08da4b17565fd11b81a728619ff29c57ff6f60a9cce4b/philipstv-3.0.2-py3-none-any.whl", hash = "sha256:82a3dfc7675e99204975e5ddc95e187207e900cb90be0adb438a6d14f0fa47b7", size = 26353, upload-time = "2026-01-05T11:44:53.426Z" },
 ]
 
 [[package]]
