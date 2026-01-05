@@ -1,4 +1,4 @@
-# PhilipstvTV GUI
+# PhilipsTV GUI
 
 [![Check](https://github.com/bcyran/philipstv-gui/actions/workflows/check.yml/badge.svg)](https://github.com/bcyran/philipstv-gui/actions/workflows/check.yml)
 [![Release](https://github.com/bcyran/philipstv-gui/actions/workflows/release.yml/badge.svg)](https://github.com/bcyran/philipstv-gui/actions/workflows/release.yml)
@@ -8,7 +8,7 @@
 
 GUI remote for Philips Android-powered TVs.
 
-![PhilipstvTV GUI screenshots](https://github.com/bcyran/philipstv-gui/raw/master/philipstv-gui.png)
+![PhilipsTV GUI screenshots](https://github.com/bcyran/philipstv-gui/raw/master/philipstv-gui.png)
 
 Features:
 - Full remote emulation, all standard keys available.
