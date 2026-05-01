@@ -133,16 +133,16 @@ class Ambilight(ttk.Frame):
 
     @property
     def _ambilight_enabled(self) -> bool:
-        return "selected" in self._power_toggle.state()  # type: ignore[no-untyped-call]
+        return "selected" in self._power_toggle.state()
 
     @_ambilight_enabled.setter
     def _ambilight_enabled(self, state: bool) -> None:
-        self._power_toggle.state(["selected"] if state else [])  # type: ignore[no-untyped-call]
+        self._power_toggle.state(["selected"] if state else [])
 
     @property
     def _sides_locked(self) -> bool:
-        return "selected" in self._lock_toggle.state()  # type: ignore[no-untyped-call]
+        return "selected" in self._lock_toggle.state()
 
     @_sides_locked.setter
     def _sides_locked(self, state: bool) -> None:
-        self._lock_toggle.state(["selected"] if state else [])  # type: ignore[no-untyped-call]
+        self._lock_toggle.state(["selected"] if state else [])
