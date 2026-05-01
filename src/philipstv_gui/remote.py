@@ -198,7 +198,7 @@ class Remote(ttk.Frame):
         self._send_key(key)
 
     def _button_keypress(self, key: InputKeyValue, *_: Any) -> None:
-        if "selected" in self._cap_toggle.state():  # type: ignore[no-untyped-call]
+        if "selected" in self._cap_toggle.state():
             self._send_key(key)
 
     def _send_key(self, key: InputKeyValue) -> None:
